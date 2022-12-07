@@ -26,7 +26,7 @@ All of the following folders are projects done during the studies:
 
 
 ## Author :
-* **[PRECIOUS NWAIGBO]** <[alli-cpp](https://github.com/alli-cpp)>
+* **[PRECIOUS GREETINGS]** <[alli-cpp](https://github.com/alli-cpp)>
 
 ## Acknowledgements :pray:
 
