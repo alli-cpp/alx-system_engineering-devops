@@ -33,8 +33,8 @@ file { '/var/www/html/index.html':
   content => "Hello World!\n",
 }
 
-# create error-404 file file
-file { '/var/www/html/custom_404.html':
+# create index file
+file { '/var/www/html/404.html':
   content => "Ceci n'est pas une page\n",
 }
 
@@ -44,18 +44,25 @@ file { 'Nginx default config file':
   path    => '/etc/nginx/sites-enabled/default',
   content =>
 "server {
-     listen      80 default_server;
-     listen      [::]:80 default_server;
-     root        /var/www/html;
-     index       index.html index.htm;
-     location /redirect_me {
-        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;
-    }
-    error_page 404 /custom_404.html;
-    location /custom_404 {
-      root /var/www/html;
-      internal;
-    }
+        listen 80 default_server;
+        listen [::]:80 default_server;
+               root /var/www/html;
+        # Add index.php to the list if you are using PHP
+        index index.html index.htm index.nginx-debian.html;
+        server_name _;
+        location / {
+                # First attempt to serve request as file, then
+                # as directory, then fall back to displaying a 404.
+                try_files \$uri \$uri/ =404;
+        }
+        error_page 404 /404.html;
+        location  /404.html {
+            internal;
+        }
+        
+        if (\$request_filename ~ redirect_me){
+            rewrite ^ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
+        }
 }
 ",
 }
